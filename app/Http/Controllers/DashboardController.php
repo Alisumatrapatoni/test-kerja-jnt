@@ -32,7 +32,7 @@ class DashboardController extends Controller
             ->get();
 
         foreach ($peminjamans as $peminjaman) {
-            $message = "<i class='fas fa-check-circle'>Aset {$peminjaman->barang->nama} sudah di Approve. Silahkan ambil di administrasi kantor. Peringatan hanya berlaku 1x24 Jam</i> ";
+            $message = "<i class='fas fa-check-circle'>Aset <u>{$peminjaman->barang->nama}</u>  sudah di Approve. Ambil barang dan tunjukkan <u>Bukti Pinjam</u> ke administrasi kantor. Peringatan berlaku <u>1x24 Jam</u></i> ";
             session()->flash('success', $message);
         }
 

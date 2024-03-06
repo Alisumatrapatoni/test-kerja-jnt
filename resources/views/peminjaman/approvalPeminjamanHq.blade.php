@@ -57,6 +57,7 @@
                                                         @method('PUT')
                                                         <span class="">
                                                             <select name="status_hq" onchange="this.form.submit()">
+                                                                <option value="" readonly>Silahkan Pilih</option>
                                                                 <option value="DITERIMA" {{ $item->status_hq == 'DITERIMA' ? 'selected' : '' }}>DITERIMA</option>
                                                                 <option value="DITOLAK" {{ $item->status_hq == 'DITOLAK' ? 'selected' : '' }}>DITOLAK</option>
                                                                 <option value="DIAMBIL" {{ $item->status_hq == 'DIAMBIL' ? 'selected' : '' }}>DIAMBIL</option>
