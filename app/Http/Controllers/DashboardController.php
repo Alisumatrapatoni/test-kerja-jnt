@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Barang;
 use App\Models\Peminjaman;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,15 +50,18 @@ class DashboardController extends Controller
         return view('role_user.dashboard', ['peminjamans' => $peminjamans]);
     }
 
-
-
-
     public function dashboard_manager()
     {
         return view('role_manager.dashboard');
     }
     public function dashboard_hq()
     {
-        return view('role_hq.dashboard');
+        // return view('role_hq.dashboard');
+        $peminjamanDiambil = Peminjaman::where('status_hq', 'DIAMBIL')
+            ->where('updated_at', '>=', Carbon::now()->subHours(24))
+            ->with('user')
+            ->get();
+
+        return view('role_hq.dashboard', ['peminjamanDiambil' => $peminjamanDiambil]);
     }
 }

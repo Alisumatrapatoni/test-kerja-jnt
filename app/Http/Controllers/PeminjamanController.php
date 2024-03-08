@@ -61,17 +61,16 @@ class PeminjamanController extends Controller
 
     public function approval_manager()
     {
-        $cabang_id = auth()->user()->cabang_id;
-
+        $cabang_id = Auth::user()->cabang_id;
         $peminjaman = Peminjaman::whereHas('user', function ($query) use ($cabang_id) {
             $query->where('cabang_id', $cabang_id);
         })
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 
-        return view('peminjaman.approvalPeminjamanManager', [
-            'peminjaman' => $peminjaman
-        ]);
+    return view('peminjaman.approvalPeminjamanManager', [
+        'peminjaman' => $peminjaman
+    ]);
     }
 
 
@@ -79,10 +78,15 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::findOrFail($id);
         $peminjaman->status_manager = $request->status_manager;
+
+        if ($peminjaman->status_manager === 'DITOLAK') {
+            $peminjaman->status_hq = 'SELESAI';
+        }
         $peminjaman->save();
 
         return redirect()->back()->with('success', 'Status manager berhasil diperbarui');
     }
+
 
     public function approval_hq()
     {
@@ -100,7 +104,9 @@ class PeminjamanController extends Controller
         $peminjaman->status_hq = $request->status_hq;
         $peminjaman->save();
 
+
         if ($peminjaman->status_hq === 'SELESAI') {
+            $peminjaman->update(['status_manager' => 'SELESAI']);
             $barang = $peminjaman->barang;
             $barang->update([
                 'jumlah' => $barang->jumlah + $peminjaman->jumlah_request

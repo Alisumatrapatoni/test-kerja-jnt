@@ -31,6 +31,13 @@
                     </h3>
                 </div>
             </div>
+
+            @foreach ($peminjamanDiambil as $peminjaman)
+            <div class="alert alert-info">
+                <p>User dengan Nama <u>{{ $peminjaman->user->name }}</u>  Email dari <u>cabang {{ $peminjaman->user->cabang->nama }}</u> telah mengambil aset pada
+                    <u>{{ $peminjaman->updated_at->format('Y-m-d H:i:s') }}</u></p>
+            </div>
+        @endforeach
         </div>
     </div>
 

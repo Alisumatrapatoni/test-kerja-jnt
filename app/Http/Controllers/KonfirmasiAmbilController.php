@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use DateTimeZone;
+use Carbon\Carbon;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
 class KonfirmasiAmbilController extends Controller
 {
-    public function konfirmasiAmbil ()
+    public function konfirmasiAmbil()
     {
         $peminjaman = Peminjaman::all();
         return view('pengambilan.listPengambilanBarang', [
@@ -22,6 +24,7 @@ class KonfirmasiAmbilController extends Controller
         if ($request->status === 'DIAMBIL') {
             $peminjaman->status_manager = 'DIAMBIL';
             $peminjaman->status_hq = 'DIAMBIL';
+            $peminjaman->updated_at = now();
             $peminjaman->save();
         }
 
@@ -33,5 +36,4 @@ class KonfirmasiAmbilController extends Controller
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui menjadi DIAMBIL');
     }
-
 }
